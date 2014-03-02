@@ -1,17 +1,17 @@
 package jumpAnalysis;
-import jumpAnalysis.threeDdata;
-
+import jumpAnalysis.AccelData;
+import jumpAnalysis.outputItx;
 public class run{
     public static void main(String[] args) {
         System.out.println("Hello World!");
-        threeDdata data = new threeDdata();
-        data.read("C:\\Users\\Keisuke\\Dropbox\\shared_fujii\\jump_logger\\sensor.accelerometer.txt");
+        AccelData data = new AccelData();
+        String dir = "C:\\Users\\Keisuke\\Dropbox\\shared_fujii\\jump_logger\\";
+        data.read(dir + "sensor.accelerometer.txt");
         
-        System.out.println("index(50.0) = " + data.getFloorIndex(50.0));
-        System.out.println("x[2] = " + data.getX(data.getT(2)));
-        System.out.println("x(50.0) = " + data.getX(50.0));
-        System.out.println("y(50.0) = " + data.getY(50.0));
-        System.out.println("z(50.0) = " + data.getZ(50.0));
+        outputItx.writeItx(data.getT().clone(), dir + "accel_t.itx", "accel_t");
+        outputItx.writeItx(data.getX().clone(), dir + "accel_x.itx", "accel_x");
+        outputItx.writeItx(data.getY().clone(), dir + "accel_y.itx", "accel_y");
+        
     }
 
 }
