@@ -6,14 +6,14 @@ class threeDdata {
 	};
 	private 
 	double[] t, x, y, z, dtInv;
-	double[] amp2;
+	double[] amp;
 	double dt, t0;
 	
 	public double[] getT(){return t;}
 	public double[] getX(){return x;}
 	public double[] getY(){return y;}
 	public double[] getZ(){return z;}
-	public double[] getAmp2(){return amp2;}
+	public double[] getamp(){return amp;}
 	
 	public boolean read(String filename){
 		CSV csv = new CSV(filename);
@@ -21,13 +21,13 @@ class threeDdata {
 		x = new double [csv.data.size()];
 		y = new double [csv.data.size()];
 		z = new double [csv.data.size()];
-		amp2 = new double [csv.data.size()];
+		amp = new double [csv.data.size()];
 		for(int i=0; i<t.length; ++i){
 			t[i] = csv.data.get(i).get(0);
 			x[i] = csv.data.get(i).get(1);
 			y[i] = csv.data.get(i).get(2);
 			z[i] = csv.data.get(i).get(3);
-			amp2[i] = Math.sqrt(x[i]*x[i] + y[i]*y[i] + z[i]*z[i]);
+			amp[i] = Math.sqrt(x[i]*x[i] + y[i]*y[i] + z[i]*z[i]);
 		}
 		t0 = t[0];
 		dt = (t[t.length-1] - t0)/(t.length-1);
