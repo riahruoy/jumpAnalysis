@@ -15,9 +15,15 @@ public class run{
         outputItx.writeItx(data.getamp(), dir + "amp.itx", "amp");
         
         MeanShiftClusterize2D msc2D = new MeanShiftClusterize2D ();
-        msc2D.set(data.getT(), data.getamp(), 0.5, 10.0, 1.0);
+        msc2D.set(data.getAmp1d(), 0.5, 12.0, 1.0);
         msc2D.run();
         outputItx.writeItx(msc2D.getResult(), dir + "rslt.itx", "rslt");
+
+//        outputItx.writeItx(msc2D.getResult1D().smooth(3).getX(), dir + "rslt_smth.itx", "rslt_smth");
+        MeanShiftClusterize2D msc2D_2 = new MeanShiftClusterize2D ();
+        msc2D_2.set(msc2D.getResult1D(), 0.1, 18.0, 1.0);
+        msc2D_2.run();
+        outputItx.writeItx(msc2D_2.getResult(), dir + "rslt2.itx", "rslt2");
     }
 
 }

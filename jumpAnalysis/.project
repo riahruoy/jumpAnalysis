@@ -16,11 +16,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/corejava/Console.java</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Dropbox/java/workspace/FPL/Console.java</locationURI>
-		</link>
-		<link>
 			<name>src/linear_algebra/Blas_f77.java</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/Dropbox/java/workspace/FPL/Blas_f77.java</locationURI>

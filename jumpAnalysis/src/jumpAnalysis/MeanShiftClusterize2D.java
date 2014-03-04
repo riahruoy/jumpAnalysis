@@ -1,29 +1,31 @@
 package jumpAnalysis;
 import optimization.*;
 import jumpAnalysis.MeanShiftClusterize2DMinClass;
+import jumpAnalysis.OneDdata;
 
 public class MeanShiftClusterize2D{
 	//	set into the class member
-	public void set(double[] x0_, double[] x1_, double dx0_, double dx1_, double threashold_){
+	public void set(OneDdata src, double dx0_, double dx1_, double threashold_){
 		minClass = new MeanShiftClusterize2DMinClass();
-		minClass.x0 = (double[])x0_.clone();
-		minClass.x1 = (double[])x1_.clone();
-		minClass.dx0 = dx0_;
-		minClass.dx1 = dx1_;
+		minClass.data = src;
+		minClass.dt = dx0_;
+		minClass.dx = dx1_;
 		minClass.threashold = threashold_;
-		x0_rslt = new double[minClass.x0.length];
-		x1_rslt = new double[minClass.x0.length];
+		x0_rslt = new double[minClass.data.length];
+		x1_rslt = new double[minClass.data.length];
 		return ;
 	}
 	//	run the optimization from every initial points
 	public void run(){
-		for(int i=0; i<minClass.x0.length; ++i){
-			run1(minClass.x0[i], minClass.x1[i]);
+		for(int i=0; i<minClass.data.length; ++i){
+			run1(minClass.data.getTi(i), minClass.data.getXi(i));
 			x0_rslt[i] = minClass.xpls[0+1];
 			x1_rslt[i] = minClass.xpls[1+1];
 		}
+		rslt = new OneDdata(minClass.data.getT(), x1_rslt);
 		return;
 	}
+	public OneDdata getResult1D(){return rslt;}
 	//	run the optimization from a certain initial point
 	private void run1(double x0Init, double x1Init){
 		double [] xinit = {0.0, x0Init, x1Init};
@@ -35,6 +37,6 @@ public class MeanShiftClusterize2D{
 	// members
 	private double[] x0_rslt, x1_rslt;
 	private MeanShiftClusterize2DMinClass minClass; 
-	
+	private OneDdata rslt;
 		
 };
