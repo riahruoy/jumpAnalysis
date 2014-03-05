@@ -41,7 +41,9 @@ public class MeanShiftSmoothing3D{
 		Uncmin_f77.optif0_f77(3, xinit, minClass, minClass.xpls, minClass.fpls, minClass.gpls, minClass.itrmcd, minClass.a, minClass.udiag);
 		return;
 	}
-	public double [] getResult(){return x_rslt;} 
+	public double [] getXResult(){return x_rslt;} 
+	public double [] getYResult(){return y_rslt;} 
+	public double [] getZResult(){return z_rslt;} 
 
 	// members
 	private double[] x_rslt, y_rslt, z_rslt;
