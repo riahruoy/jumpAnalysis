@@ -16,18 +16,25 @@ public class MeanShiftClusterize2DMinClass  implements Uncmin_methods{
     double udiag[] = new double[2+1];
 	
     //	kernel:	 2nd order b-spline
+    //	kernel:	 2nd order b-spline
     public static double kernel(double x_){
-    	if(x_ < 0.5) return -x_*x_ + 1.25; 
+    	if(x_ <-1.5) return 0.0;
+    	else if(x_ <-0.5) return (x_+1.5)*(x_+1.5);
+    	else if(x_ < 0.5) return -x_*x_ + 1.25; 
       	else if(x_ < 1.5) return (x_-1.5)*(x_-1.5);
       	else return 0.0;
 	}
     public static double dkernel_dt(double x_){
-    	if(x_ < 0.5) return -2.0*x_; 
+    	if(x_ <-1.5) return 0.0;
+    	else if(x_ <-0.5) return 2.0*(x_+1.5);
+    	else if(x_ < 0.5) return -2.0*x_; 
       	else if(x_ < 1.5) return 2.0*(x_-1.5);
       	else return 0.0;
 	}
     public static double d2kernel_dt2(double x_){
-    	if(x_ < 0.5) return -2.0; 
+    	if(x_<-1.5) return 0.0;
+    	else if(x_ < -0.5) return 2.0; 
+    	else if(x_ < 0.5) return -2.0; 
       	else if(x_ < 1.5) return 2.0;
       	else return 0.0;
 	}
@@ -37,13 +44,14 @@ public class MeanShiftClusterize2DMinClass  implements Uncmin_methods{
 		double sum=0.0;
 		double t_ = x[0+1];
 		double x_ = x[1+1];
-		double delta_t = 1.5*dt;
-		double tmin = t_ - delta_t;
-		double tmax = t_ + delta_t;
+		double t_width = 1.5*dt;
+		double tmin = t_ - t_width;
+		double tmax = t_ + t_width;
 		if(tmax > data.getTi(data.length-1)) tmax = data.getTi(data.length-1);
 		for(int i = data.getFloorIndex(tmin); data.getTi(i) < tmax; ++i){
-			double d2 = (t_ - data.getTi(i))*(t_ - data.getTi(i))/(dt*dt) + (x_ - data.getXi(i))*(x_ - data.getXi(i))/(dx*dx);
-			sum -= kernel(Math.sqrt(d2));//	evaluation function
+			double delta_x =  (x_ - data.getXi(i))/dx;
+			double delta_t =  (t_ - data.getTi(i))/dt;
+			sum -= kernel(delta_x) * kernel(delta_t);//	evaluation function
 		}
 		return sum;
 	 }
@@ -54,19 +62,18 @@ public class MeanShiftClusterize2DMinClass  implements Uncmin_methods{
 		double sum_x=0.0;
 		double t_ = x[0+1];
 		double x_ = x[1+1];
-		double delta_t = 1.5*dt;
-		double tmin = t_ - delta_t;
-		double tmax = t_ + delta_t;
+		double t_width = 1.5*dt;
+		double tmin = t_ - t_width;
+		double tmax = t_ + t_width;
 		if(tmax > data.getTi(data.length-1)) tmax = data.getTi(data.length-1);
 		for(int i = data.getFloorIndex(tmin); data.getTi(i) < tmax; ++i){
-			double d2 = (t_ - data.getTi(i))*(t_ - data.getTi(i))/(dt*dt) + (x_ - data.getXi(i))*(x_ - data.getXi(i))/(dx*dx);
-			double d = Math.sqrt(d2);
-			double dkernel_D = dkernel_dt(d);
-			sum_t -= dkernel_D * (t_- data.getTi(i))/d;//	evaluation function
-			sum_x -= dkernel_D * (x_- data.getXi(i))/d;//	evaluation function
+			double delta_x =  (x_ - data.getXi(i))/dx;
+			double delta_t =  (t_ - data.getTi(i))/dt;
+			sum_t += dkernel_dt(delta_t)*kernel(delta_x) ;//	evaluation function
+			sum_x += kernel(delta_t)*dkernel_dt(delta_x) ;//	evaluation function
 		}
-		g[0+1] = sum_t/dt/dt;
-		g[1+1] = sum_x/dx/dx;
+		g[0+1] = sum_t/dt;
+		g[1+1] = sum_x/dx;
 		return;
 	 }
 
@@ -76,28 +83,21 @@ public class MeanShiftClusterize2DMinClass  implements Uncmin_methods{
 		double sum_xx=0.0;
 		double t_ = x[0+1];
 		double x_ = x[1+1];
-		double delta_t = 1.5*dt;
-		double tmin = t_ - delta_t;
-		double tmax = t_ + delta_t;
+		double t_width = 1.5*dt;
+		double tmin = t_ - t_width;
+		double tmax = t_ + t_width;
 		if(tmax > data.getTi(data.length-1)) tmax = data.getTi(data.length-1);
 		for(int i = data.getFloorIndex(tmin); data.getTi(i) < tmax; ++i){
-			double d2 = (t_ - data.getTi(i))*(t_ - data.getTi(i))/(dt*dt) + (x_ - data.getXi(i))*(x_ - data.getXi(i))/(dx*dx);
-			double D = Math.sqrt(d2);
-			double dDdt = (t_- data.getTi(i))/D;
-			double dDdx = (x_- data.getXi(i))/D;
-			double ddDdtdt = (dt*dt*d2 - (t_- data.getTi(i))*(t_- data.getTi(i)))/(d2*D);
-			double ddDdxdx = (dx*dx*d2 - (x_- data.getXi(i))*(x_- data.getXi(i)))/(d2*D);
-			double ddDdtdx = (         - (t_- data.getTi(i))*(x_- data.getXi(i)))/(d2*D);
-			double dkernel_D = dkernel_dt(D);
-			double d2kernel_D2 = d2kernel_dt2(D);
-			sum_tt -= d2kernel_D2 * dDdt * dDdt + dkernel_D * ddDdtdt;//	evaluation function
-			sum_xx -= d2kernel_D2 * dDdx * dDdx + dkernel_D * ddDdxdx;//	evaluation function
-			sum_tt -= d2kernel_D2 * dDdt * dDdx + dkernel_D * ddDdtdx;//	evaluation function
+			double delta_x =  (x_ - data.getXi(i))/dx;
+			double delta_t =  (t_ - data.getTi(i))/dt;
+			sum_tt -= d2kernel_dt2(delta_t) * kernel(delta_x) /(dt*dt); 
+			sum_tx -= dkernel_dt(delta_t) * dkernel_dt(delta_x) /(dt*dx); 
+			sum_tt -= kernel(delta_t) * d2kernel_dt2(delta_x) /(dx*dx); 
 		}
-		h[0+1][0+1] = sum_tt/(dt*dt*dt*dt); 
-		h[0+1][1+1] = sum_tx/(dt*dx*dt*dx); 
-		h[1+1][0+1] = sum_tx/(dt*dx*dt*dx); 
-		h[1+1][1+1] = sum_xx/(dx*dx*dx*dx); 
+		h[0+1][0+1] = sum_tt; 
+		h[0+1][1+1] = sum_tx; 
+		h[1+1][0+1] = sum_tx; 
+		h[1+1][1+1] = sum_xx; 
 		return;
 	 }
 

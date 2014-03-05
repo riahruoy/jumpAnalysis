@@ -1,6 +1,6 @@
 package jumpAnalysis;
-import jumpAnalysis.threeDdata;
+import jumpAnalysis.ThreeDdata;
 
-public class AccelData extends threeDdata{
+public class AccelData extends ThreeDdata{
 	AccelData(){};
 }
