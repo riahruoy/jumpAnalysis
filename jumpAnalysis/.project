@@ -16,16 +16,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/linear_algebra/Blas_f77.java</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Dropbox/java/workspace/FPL/Blas_f77.java</locationURI>
-		</link>
-		<link>
-			<name>src/optimization/Uncmin_f77.java</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Dropbox/java/workspace/FPL/Uncmin_f77.java</locationURI>
-		</link>
-		<link>
 			<name>src/optimization/Uncmin_methods.java</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/Dropbox/java/workspace/FPL/Uncmin_methods.java</locationURI>
