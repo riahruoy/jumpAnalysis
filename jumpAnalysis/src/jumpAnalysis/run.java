@@ -10,6 +10,7 @@ public class run{
     public static void main(String[] args) {
     	String dir = "C:\\Users\\Keisuke\\Dropbox\\shared_fujii\\jump_logger\\data2\\";
         
+    	
     	GpsData gpsdata = new GpsData();
     	gpsdata.read(dir + "location.gps.txt");
         outputItx.writeItx(gpsdata.getT(), dir + "gps_t.itx", "gps_t");
