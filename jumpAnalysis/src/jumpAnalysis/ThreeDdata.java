@@ -9,6 +9,11 @@ class ThreeDdata {
 		y = new OneDdata(t_, y_);
 		z = new OneDdata(t_, z_);
 		length = x.length;
+		amp = new OneDdata(length);
+		for(int i=0; i<x.length; ++i)
+			amp.set(i, x.getTi(i),  
+					Math.sqrt(x.getXi(i)*x.getXi(i) + y.getXi(i)*y.getXi(i) + z.getXi(i)*z.getXi(i)));
+		amp.setInterp();
 	};
 	private 
 	OneDdata x, y, z, amp;
@@ -44,6 +49,7 @@ class ThreeDdata {
 	
 	public double getT(int index){	return x.getTi(index);}
 
+	public double getAmpi(int index){	return amp.getXi(index);	}
 	public double getXi(int index){	return x.getXi(index);	}
 	public double getYi(int index){	return y.getXi(index);	}
 	public double getZi(int index){	return z.getXi(index);	}
@@ -61,8 +67,14 @@ class ThreeDdata {
 	//	copy constructor
 	public ThreeDdata(ThreeDdata oneDdata){
 		this.x = oneDdata.x;
-		this.y = oneDdata.x;
-		this.z = oneDdata.x;
+		this.y = oneDdata.y;
+		this.z = oneDdata.z;
+		length = x.length;
+		amp = new OneDdata(length);
+		for(int i=0; i<x.length; ++i)
+			amp.set(i, x.getTi(i),  
+					Math.sqrt(x.getXi(i)*x.getXi(i) + y.getXi(i)*y.getXi(i) + z.getXi(i)*z.getXi(i)));
+		amp.setInterp();
 	}
 	public int getFloorIndex(double t_){return x.getFloorIndex(t_);}
 
