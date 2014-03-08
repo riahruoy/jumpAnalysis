@@ -21,8 +21,8 @@ public class GpsData {
 		double [] accuracy = new double [csv.data.size()];
 		for(int i=0; i<t.length; ++i){
 			t[i]        = csv.data.get(i).get(0);
-			latitude[i]      = csv.data.get(i).get(1);
-			longitude[i]    = csv.data.get(i).get(2);
+			latitude[i] = csv.data.get(i).get(1);
+			longitude[i]= csv.data.get(i).get(2);
 			altitude[i] = csv.data.get(i).get(3);
 			accuracy[i] = csv.data.get(i).get(4);
 		}
@@ -57,12 +57,12 @@ public class GpsData {
 			getGlobalXYZfromGPSdata(latitude[i], longitude[i], altitude[i], XYZ);
 			double [] xyz_ = getLocalXYZfromGlobalXYZ(XYZ);
 
-//			x.set(i, t[i], xyz_[0]);
-//			y.set(i, t[i], xyz_[1]);
-//			z.set(i, t[i], xyz_[2]);
-			x.set(i, t[i], XYZ[0]-globalXYZ0[0]);
-			y.set(i, t[i], XYZ[1]-globalXYZ0[1]);
-			z.set(i, t[i], XYZ[2]-globalXYZ0[2]);
+			x.set(i, t[i], xyz_[0]);
+			y.set(i, t[i], xyz_[1]);
+			z.set(i, t[i], xyz_[2]);
+//			x.set(i, t[i], XYZ[0]-globalXYZ0[0]);
+//			y.set(i, t[i], XYZ[1]-globalXYZ0[1]);
+//			z.set(i, t[i], XYZ[2]-globalXYZ0[2]);
 			dx.set(i, t[i], accuracy[i]);
 		}
 		//---	---
@@ -121,7 +121,7 @@ public class GpsData {
 		vx.set(i, minClass.tnow, minClass.xpls[1]);
 		vy.set(i, minClass.tnow, minClass.xpls[2]);
 		vz.set(i, minClass.tnow, minClass.xpls[3]);
-		vamp.set(i, minClass.tnow, Math.sqrt(minClass.xpls[0]*minClass.xpls[0] + minClass.xpls[1]*minClass.xpls[1] + minClass.xpls[2]*minClass.xpls[2]));
+		vamp.set(i, minClass.tnow, Math.sqrt(minClass.xpls[1]*minClass.xpls[1] + minClass.xpls[2]*minClass.xpls[2] + minClass.xpls[3]*minClass.xpls[3]));
 		xbar.set(i, minClass.tnow, minClass.xpls[4]);
 		ybar.set(i, minClass.tnow, minClass.xpls[5]);
 		zbar.set(i, minClass.tnow, minClass.xpls[6]);
@@ -142,12 +142,16 @@ public class GpsData {
 	public double[] getZbar(){	return zbar.getX();}
 	
 	public GpsData(){}
-	//	copy constructor
+/*	//	copy constructor
 	public GpsData(GpsData oneDdata){
 		this.x = oneDdata.x;
 		this.y = oneDdata.x;
+		this.z = oneDdata.z;
+		this.vx = oneDdata.vx;
+		this.vy = oneDdata.vx;
+		this.vz = oneDdata.vz;
 	}
-	public int getFloorIndex(double t_){return x.getFloorIndex(t_);}
+*/	public int getFloorIndex(double t_){return x.getFloorIndex(t_);}
 	
 	//---------------------------------------------	
 	//
@@ -173,7 +177,7 @@ public class GpsData {
 	}
 	public double[] getLocalXYZfromGlobalXYZ(double[] XYZ){
 		double [] deltaX = {XYZ[0]-globalXYZ0[0], XYZ[1]-globalXYZ0[1], XYZ[2]-globalXYZ0[2]}; 
-		return dot(conversionMatrix, deltaX);
+		return dot(conversionMatrix, deltaX);//
 	}
 
 	public static void getGPSdatafromGlobalXYZ(double phi, double theta, double h, double[] XYZ){
@@ -188,7 +192,7 @@ public class GpsData {
 		R0[2][0] = 0.0;	        R0[2][1] = 0.0;         R0[2][2] = 1.0;
 		double [][] R1 = new double [3][3];
 		q = piGps*(90.0-phi)/180.0; 
-		R1[0][0] = Math.cos(q);	R1[0][1] = 0.0;         R1[0][2] = -Math.sin(q);
+		R1[0][0] = Math.cos(q);	R1[0][1] = 0.0;         R1[0][2] =-Math.sin(q);
 		R1[1][0] = 0.0;	        R1[1][1] = 1.0;         R1[1][2] = 0.0;
 		R1[2][0] = Math.sin(q);	R1[2][1] = 0.0;         R1[2][2] = Math.cos(q);
 		double [][] R2 = new double [3][3];
