@@ -8,7 +8,7 @@ import jumpAnalysis.MeanShiftSmoothing3D;
 
 public class run{
     public static void main(String[] args) {
-    	String dir = "C:\\Users\\Keisuke\\Dropbox\\shared_fujii\\jump_logger\\data2\\";
+    	String dir = "C:\\Users\\Keisuke\\Dropbox\\shared_fujii\\jump_logger\\";
         
     	
     	GpsData gpsdata = new GpsData();
@@ -17,13 +17,14 @@ public class run{
         outputItx.writeItx(gpsdata.getX(), dir + "gps_x.itx", "gps_x");
         outputItx.writeItx(gpsdata.getY(), dir + "gps_y.itx", "gps_y");
         outputItx.writeItx(gpsdata.getZ(), dir + "gps_z.itx", "gps_z");
-    	gpsdata.getSpeed(2.0, 1.0);
+    	gpsdata.getSpeed(3.0, 1.0);
     	outputItx.writeItx(gpsdata.getXbar(), dir + "gps_xbar.itx", "gps_xbar");
         outputItx.writeItx(gpsdata.getYbar(), dir + "gps_ybar.itx", "gps_ybar");
         outputItx.writeItx(gpsdata.getZbar(), dir + "gps_zbar.itx", "gps_zbar");
     	outputItx.writeItx(gpsdata.getVx(), dir + "gps_vx.itx", "gps_vx");
         outputItx.writeItx(gpsdata.getVy(), dir + "gps_vy.itx", "gps_vy");
         outputItx.writeItx(gpsdata.getVz(), dir + "gps_vz.itx", "gps_vz");
+        outputItx.writeItx(gpsdata.getVamp(), dir + "gps_vamp.itx", "gps_vamp");
     	
     	AccelData accdata = new AccelData();
         accdata.read(dir + "sensor.accelerometer.txt");
@@ -33,10 +34,10 @@ public class run{
     	outputItx.writeItx(accdata.getZsmth(), dir + "acc_z_smth.itx", "acc_z_smth");
     	outputItx.writeItx(accdata.getamp(), dir + "acc_amp.itx", "acc_amp");
     	outputItx.writeItx(accdata.getT(), dir + "acc_t.itx", "acc_t");
-        
         outputItx.writeItx(accdata.getDataSmth().getamp(), dir + "rslt_amp.itx", "rslt_amp");
         outputItx.writeItx(accdata.getJump_t_start(), dir + "jump_t_start.itx", "jump_t_start");
         outputItx.writeItx(accdata.getJump_t_duration(), dir + "Jump_t_duration.itx", "Jump_t_duration");
+        outputItx.writeItx(accdata.getJumpDistance(gpsdata.getVamp1d()), dir + "Jump_distance.itx", "Jump_distance");
 /*
         GyroData gyrodata = new GyroData ();
         gyrodata.read(dir + "sensor.gyroscope.txt");

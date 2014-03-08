@@ -24,6 +24,14 @@ public class AccelData extends ThreeDdata{
         detectJumpCore(g_threashold, smallestDuration);
 	}
 	
+	public double[] getJumpDistance(OneDdata vamp){
+		jump_distance = new double[jump_t_start.size()];
+		for(int i=0; i<jump_distance.length; ++i){
+			jump_distance[i] = vamp.get(jump_t_start.get(i))*jump_t_duration.get(i);
+		}
+		return jump_distance;
+	}
+	
 	private void detectJumpCore(double g_threashold, double smallestDuration){
 		jump_t_start = new ArrayList<Double>();
 		jump_t_duration = new ArrayList<Double>();
@@ -53,6 +61,7 @@ public class AccelData extends ThreeDdata{
 	}
 	private ThreeDdata data_smth;
 	private List<Double> jump_t_start, jump_t_duration;
+	private double [] jump_distance;
 	public ThreeDdata getDataSmth(){return data_smth;}
 	public double[] getJump_t_start(){
 		double[] jumpTstart = new double [jump_t_start.size()];
