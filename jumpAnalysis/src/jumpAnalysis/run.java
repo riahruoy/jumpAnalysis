@@ -8,7 +8,7 @@ import jumpAnalysis.MeanShiftSmoothing3D;
 
 public class run{
     public static void main(String[] args) {
-    	String dir = "C:\\Users\\Keisuke\\Dropbox\\shared_fujii\\jump_logger\\";
+    	String dir = "C:\\Users\\Keisuke\\Dropbox\\shared_fujii\\jump_logger\\yohei_data6\\";
         
     	
     	GpsData gpsdata = new GpsData();
@@ -29,6 +29,9 @@ public class run{
     	AccelData accdata = new AccelData();
         accdata.read(dir + "sensor.accelerometer.txt");
         accdata.detectJump(0.1 ,15.0, 8.0, 0.5);
+    	outputItx.writeItx(accdata.getX(), dir + "acc_x.itx", "acc_x");
+    	outputItx.writeItx(accdata.getY(), dir + "acc_y.itx", "acc_y");
+    	outputItx.writeItx(accdata.getZ(), dir + "acc_z.itx", "acc_z");
     	outputItx.writeItx(accdata.getXsmth(), dir + "acc_x_smth.itx", "acc_x_smth");
     	outputItx.writeItx(accdata.getYsmth(), dir + "acc_y_smth.itx", "acc_y_smth");
     	outputItx.writeItx(accdata.getZsmth(), dir + "acc_z_smth.itx", "acc_z_smth");

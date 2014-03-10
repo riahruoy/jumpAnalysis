@@ -27,7 +27,11 @@ public class AccelData extends ThreeDdata{
 	public double[] getJumpDistance(OneDdata vamp){
 		jump_distance = new double[jump_t_start.size()];
 		for(int i=0; i<jump_distance.length; ++i){
-			jump_distance[i] = vamp.get(jump_t_start.get(i))*jump_t_duration.get(i);
+			double g = 9.8;	// m/s
+			double vz = 0.5 * g * jump_t_duration.get(i);
+			double v = vamp.get(jump_t_start.get(i));
+			double vx = Math.sqrt(v*v - vz*vz);
+			jump_distance[i] = vx*jump_t_duration.get(i);
 		}
 		return jump_distance;
 	}
