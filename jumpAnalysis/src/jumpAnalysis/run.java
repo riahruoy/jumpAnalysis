@@ -8,7 +8,7 @@ import jumpAnalysis.MeanShiftSmoothing3D;
 
 public class run{
     public static void main(String[] args) {
-    	String dir = "C:\\Users\\Keisuke\\Dropbox\\shared_fujii\\jump_logger\\yohei_data6\\";
+    	String dir = "data/cccc/2014-03-09 15%3A34%3A15/";
         
     	
     	GpsData gpsdata = new GpsData();
