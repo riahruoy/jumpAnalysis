@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/optimization/Uncmin_methods.java</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Dropbox/java/workspace/FPL/Uncmin_methods.java</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
