@@ -12,7 +12,14 @@ import jumpAnalysis.MeanShiftSmoothing3D;
 
 public class run{
     public static void main(String[] args) {
-    	String dir = "data/cccc/2014-03-09 15%3A34%3A15/";
+
+    	if (args.length == 0) {
+    		System.out.println("path for target directory is needed");
+    		return;
+    	}
+    	final String dir = args[0]; 
+
+//    	String dir = "data/cccc/2014-03-09 15%3A34%3A15/";
         
     	
     	GpsData gpsdata = new GpsData();
@@ -33,16 +40,20 @@ public class run{
     	AccelData accdata = new AccelData();
         accdata.read(dir + "sensor.accelerometer.txt");
         accdata.detectJump(0.1 ,15.0, 8.0, 0.5);
-        for (double duration : accdata.getJump_t_duration()) {
-        	System.out.println("jump_duration : " + Double.valueOf(duration) + " s");
-        }
+        
+        double[] durations = accdata.getJump_t_duration();
+        double[] starts = accdata.getJump_t_start();
+        double[] distances = accdata.getJumpDistance(gpsdata.getVamp1d());
+
         final SimpleDateFormat logTimeSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.JAPAN);
-        for (double start : accdata.getJump_t_start()) {
+
+        //durations.length == starts.length == distances.length
+        for (int i = 0; i < starts.length; i++) {
+        	double duration = durations[i];
+        	double start = starts[i];
+        	double distance = distances[i];
         	Date d = new Date((long)(start * 1000));
-        	System.out.println("jump_start : " + logTimeSdf.format(d));
-        }
-        for (double distance : accdata.getJumpDistance(gpsdata.getVamp1d())) {
-        	System.out.println("jump distance : " + Double.valueOf(distance) + " m");
+        	System.out.println(logTimeSdf.format(d) + "," + start + "," + duration + "," + distance);
         }
 //    	outputItx.writeItx(accdata.getX(), dir + "acc_x.itx", "acc_x");
 //    	outputItx.writeItx(accdata.getY(), dir + "acc_y.itx", "acc_y");
