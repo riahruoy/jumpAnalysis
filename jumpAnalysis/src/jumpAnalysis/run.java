@@ -52,8 +52,14 @@ public class run{
         	double duration = durations[i];
         	double start = starts[i];
         	double distance = distances[i];
+        	double startX = gpsdata.getXbar(start);
+        	double startY = gpsdata.getYbar(start);
+        	double endX = gpsdata.getXbar(start + duration);
+        	double endY = gpsdata.getYbar(start + duration);
+        	
+        	double distance2 = Math.sqrt((endX - startX) * (endX - startX) + (endY - startY) * (endY - startY));
         	Date d = new Date((long)(start * 1000));
-        	System.out.println(logTimeSdf.format(d) + "," + start + "," + duration + "," + distance);
+        	System.out.println(logTimeSdf.format(d) + "," + start + "," + duration + "," + distance2);
         }
 //    	outputItx.writeItx(accdata.getX(), dir + "acc_x.itx", "acc_x");
 //    	outputItx.writeItx(accdata.getY(), dir + "acc_y.itx", "acc_y");

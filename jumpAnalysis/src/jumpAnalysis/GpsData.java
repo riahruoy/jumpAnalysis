@@ -140,6 +140,9 @@ public class GpsData {
 	public double[] getXbar(){	return xbar.getX();}
 	public double[] getYbar(){	return ybar.getX();}
 	public double[] getZbar(){	return zbar.getX();}
+	public double getXbar(double t){	return xbar.get(t);}
+	public double getYbar(double t){	return ybar.get(t);}
+	public double getZbar(double t){	return zbar.get(t);}
 	
 	public GpsData(){}
 /*	//	copy constructor
