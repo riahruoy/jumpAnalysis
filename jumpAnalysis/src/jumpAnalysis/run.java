@@ -39,7 +39,8 @@ public class run{
     	
     	AccelData accdata = new AccelData();
         accdata.read(dir + "sensor.accelerometer.txt");
-        accdata.detectJump(0.1 ,15.0, 8.0, 0.5);
+//        accdata.detectJump(0.1 ,15.0, 8.0, 0.5);
+        accdata.detectJump(0.000001 ,0.00001, 8.0, 0.5);
         
         double[] durations = accdata.getJump_t_duration();
         double[] starts = accdata.getJump_t_start();

@@ -58,7 +58,7 @@ public class AccelData extends ThreeDdata{
 						jump_t_start.add(data_smth.getTi(i));
 						jump_t_duration.add(duration);
 					}
-					i = j;
+					i = j-1;
 				}
 			}
 		}
